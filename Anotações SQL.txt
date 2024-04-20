@@ -1,0 +1,360 @@
+Anotações SQL:
+
+Aula 1:
+
+Códigos:
+
+Select * From Tb_X; seleciona todos os regitros da tabela x os mostrando ao programador.
+Create Table Tb_X(Colunas da tabela e seus tipos); cria a tabela x com as colunas que forem colocadas entre parênteses.
+Insert Into Tb_X Values(registros a serem inseridos); insere na tabela x os dados colocados entre parênteses respeitando os tipos determinado no create.
+Delete From Tb_X;Deleta todos os registros da tabela x.
+Delete From Tb_X Where Id_Cliente = 1; deleta os dados da tabela que tiveram como ID o número 1.
+Alter Table Tb_X ADD Constraint Primary Key (ID_Cliente); altera a tabela x adicionando a constraint pk no id_cliente.
+Alter Table Tb_X ADD Constraint Foreign Key (CD_Estado) References Tb_Y; Altera a tabela x fazendo um dos campos referenciar a tabela y assim conectando as duas tabela.
+Select * From Tb_X Where Id_Cliente = 9; seleciona e mostra ao programador apenas o registro aonde o id do cliente for 9.
+Select * From Tb_X Where Nm_cliente Like '%A%'; seleciona todos os regitros aonde o nome do cliente tenha em qualquer parte a letra A maiuscula.
+Select * From Tb_X Where Nm_cliente Like '%a'; seleciona todos os regitros aonde o nome do cliente tenha no final a letra A minúscula.
+Select * From Tb_X Where Nm_cliente Ilike 'A%'; seleciona todos os regitros aonde o nome do cliente tenha em seu início a letra A maiuscula ou minúscula.
+Alter Table Tb_X ADD Column Vl_Transporte Numeric; altera a tabela x adicionando a coluna Vl_Transporte sendo de característica Numérica.
+Update Tb_X Set Vl_Transporte = 1000 Where Id_Cliente = 1; atualiza a tabela x dando ao cliente cujo o id seja 1 o valor do seu vale transporte de 1000.
+Alter Table Tb_X Alter Column Vl_Transporte Set Not Null; Altera a tabela x tornando a coluna Vl_Transporte como Not null ou seja não nulo.
+Update Tb_X Set Vl_Transporte = 1000; Atualiza a tabela x dando a todos os clientes o valor de 1000 em seu vale transporte sem especificar um cliente.
+Update Tb_X Set Vl_Transporte = 1000 Where Vl_Transporte Is Null; Atualiza a tabela x dando a todos que não tenham valor no vale transporte o valor de 1000.
+Alter Table Tb_X Rename Column Vl_Transporte To Vl_Salario;Altera a tabela x renomeando a coluna Vale transporte para valor salario.
+Alter Table Tb_X Drop Column Nu_Filhos;Altera a tabela x eliminando a coluna número de filhos.
+Select * From Tb_Cliente Order By Vl_Salario Desc; mostre os registros da tabela cliente e os ordene de forma decrescente pelo salário.
+Update Tb_Cliente Set Vl_Salario = 1.500 Where Vl_Salario <1000;Atualiza os salários dos clientes cujo registro de salário seja menor que 1.000.
+Alter Table Tb_Cliente Add Constraint Ck_Vl_Salario Check (Vl_salario >=1.000); Adiciona uma regra na tabela cliente aonde um salario não pode ser menor que 1.000.
+Alter Table Tb_Cliente Drop Constraint Ck_Vl_Salario; deleta a regra que não permite salarios menores que 1.000. 
+Delete From Tb_Cliente Where Nm_Cliente like '%Silva'; deleta da tabela de clientes os registros cujo estejam na nm_cliente que terminem em Silva.
+Alter Table Tb_Cliente Alter Column Vl_Salario Type Integer; Altera a tabela cliente alterando a coluna salário mudando seu tipo para integer.
+select nm_cliente,nm_estado from tb_cliente A, Tb_estado B where A.cd_estado = B.cd_estado; liste os nomes dos clientes e seus respectivos nomes de estados os quais os códigos de estado sejam igual a da tb_estado.
+select sum(vl_salario) from tb_cliente; soma os salários de todos os clientes da tabela clientes.
+select To_Char(avg(vl_salario),'99999.99')as resultado from tb_cliente; da a média salarial dos clientes e a transforma numa string de texto.
+select nm_cliente, vl_salario from tb_cliente where vl_salario >(select avg(vl_salario) from tb_cliente); seleciona os clientes e seus salários cujo valor salarial ultrapasse a média salarial da tb_cliente, este código utliza subquery.
+select nm_estado as Estado, count (*) as Quantidade from tb_cliente A, tb_estado B where A.cd_estado = B.cd_estado group by nm_estado; selecione os nomes dos estados e diga quantos clientes cada estado possui.
+select nm_estado as Estado, AVG (Vl_Salario) as Media from tb_cliente A, tb_estado B where A.cd_estado = B.cd_estado group by nm_estado; seleciona os nomes dos estados e nos mostra a média salarial de cada um.
+select nm_cliente as nome, vl_salario as salario from tb_cliente where vl_salario = (select max(Vl_salario) from tb_cliente); mostra o nome do cliente e o salario do cliente de maior salario da tb_cliente.
+select distinct cd_estado from tb_estado; seleciona os códigos de estado da tabela estado sem repetir devido ao distinct.
+Delete from tb_estado A where 0 = (select count (*) from tb_cliente B where B.cd_estado = A.cd_estado); delete os estados que não tenham clientes registrados.
+select nm_estado as Estado, count (*) as Quantidade from tb_cliente A, tb_estado B where A.cd_estado = B.cd_estado
+group by nm_estado having count(*) >2; seleciona os nomes dos estados e conta quantos registros há em cada um e mostra apenas aqueles que a quantidade de regitros seja maior que 2.
+alter table rafa.tb_pessoa add constraint ck_nu_cpf check (LENGTH(nu_cpf) = 11); lê o dado inserido e não permite que tenha menos de 11 caracteres.
+Create Table Tb_Seguranca as Select * from Tb_Pessoa; cria uma tabela usando todos os dados da tabela declarada no final do código.
+select count(*) from rafa.tb_pessoa where nm_pessoa = lower(nm_pessoa);conta os registros aonde o nome é inteiramente feito de minúsculas.
+select count(*) from rafa.tb_pessoa where nm_pessoa != upper(nm_pessoa);conta os registros aonde o nome contenha ao menos algumas letras minúscula .
+select nm_pessoa, nu_idade  from rafa.tb_pessoa  where nm_pessoa >= 'A' and nm_pessoa <= 'Z';seleciona os registros com a letra inicial sendo entre A e Z.
+select nm_pessoa from rafa.tb_pessoa where nm_pessoa ilike 'L%Krug';seleciona os registros aonde o nome da pessoa começa com L e termina com Krug.
+select nm_pessoa from rafa.tb_pessoa where nm_pessoa ilike 'L%Krug';transforma todos os nomes registrados na coluna nm_pessoa da tabela em maiúsculas.
+create table tb_oficinaalunoxyz (cd_oficina integer, cd_aluno integer, nu_ano integer not null check(nu_ano>2015 and nu_ano<2021));cria a tabela com estes campos e com a constraint check no campo ano não permitindo que seja registrados anos menores que 2015 e maiores que 2021.
+alter table tb_alunoxyz rename to tb_aluno;renomeia a tabela tb_alunoxyz para tb_aluno.
+alter table Tb_oficinaaluno add constraint pk_oficinaaluno primary key (cd_oficina, cd_aluno);cria uma chave composta de 2 primary keys.
+alter table tb_aluno add column fl_sexo char(1) not null default 'M' check (fl_sexo in('M','F')); altera a tabela adicionando a coluna fl_sexo que é do tipo char(1) obrigatória e com default masculino e coloca uma constraint que checa apenas permitindo que sejam inseridos M de masculino e F de feminino.
+update tb_aluno set nm_aluno = upper(nm_aluno);transforma todos os registros da nm_aluno em maiúsculas.
+update tb_oficina set nm_oficina = lower(nm_oficina);transforma todos os registros da nm_oficina em minúsculos.
+update tb_oficina set nu_ano = 2017 where nu_ano = 2016;atualiza os registros do campo nu_ano aonde está 2016 para 2017.
+SELECT * FROM tb_alunos ORDER BY nome_aluno LIKE 'A%', nome_aluno;o código ordena os registros em ordem alfabética e colocará os registros começando com 'A' primeiro.
+select A.nm_aluno,A.cd_aluno,B.nm_oficina,B.nu_ano from tb_aluno A,tb_oficina B,tb_oficinaaluno C where  
+A.cd_aluno = C.cd_aluno and
+C.cd_oficina = B.cd_oficina order by nm_aluno, nu_ano desc, nm_oficina;Lista o Nome do aluno,o nome da Oficina em ordem nome do aluno,ano(desc) e nome da
+Oficina, ambos os nomes em ordem alfabetica.
+select nu_ano from tb_oficina group by nu_ano having count(*) = (select min(contagem)
+from (select count(*) as contagem from tb_oficina group by nu_ano) as sub);seleciona o ano que menos aparece.
+select A.nu_ano as resultado from tb_oficina A,tb_oficinaaluno B where A.cd_oficina = B.cd_oficina
+group by A.nu_ano having count(*) = 
+(select min(contagem) from(select count(*) as contagem from tb_oficinaaluno group by cd_aluno) as resultado);1Qual o ano que teve o menor número de alunos inscritos
+select A.nm_oficina as resultado from tb_oficina A, tb_oficinaaluno B where A.cd_oficina = B.cd_oficina
+group by A.nm_oficina having count(*) = (select max(contagem) from(select count(*) as contagem
+from tb_oficinaaluno B, tb_oficina A where B.cd_oficina = A.cd_oficina and A.nu_ano = 2018
+group by B.cd_oficina)as resposta);27) Qual a oficina que teve o maior número de alunos inscritos no ano de 2018.
+select A.nu_ano as Ano,A.nm_oficina as Nome from tb_oficina A left join tb_oficinaaluno B on A.cd_oficina = B.cd_oficina
+group by A.nm_oficina, A.nu_ano having count (B.cd_oficina) = 0 order by A.nu_ano asc, A.nm_oficina;Qual oficina que não teve alunos inscritos, listar por ordem de ano (Crescente) e de
+nome de oficina (Alfabética).
+select nm_aluno from tb_aluno where cd_aluno not in (select cd_aluno from tb_oficinaaluno);Qual o aluno que não participou de oficinas dentre todos os anos.
+select nm_aluno from tb_aluno where cd_aluno in (select cd_aluno from (select cd_aluno,
+count(*) as r from tb_oficinaaluno group by cd_aluno) as sub where r =
+(select max (r) from (select count(*) as r from tb_oficinaaluno
+group by cd_aluno) as maximo));Qual o aluno que mais participou de oficinas.
+delete from tb_aluno  where cd_aluno not in (select cd_aluno from tb_oficinaaluno);Eliminar da tabela Tb_Aluno aqueles alunos que jamais participaram de alguma oficina.
+select count(*) from tb_pessoa where nm_pessoa ilike '%silva%' and nm_pessoa Not ilike '% silva';conta as pessoas que tenha silva no nome mas não no sobrenome.
+create table tb_seg as select nm_fabrica, nm_produto from tb_fabrica A, tb_produtofabrica B, tb_produto C where
+A.id_fabrica = B.id_fabrica and
+B.cd_produto = C.cd_produto and nu_qtde > 0;cria uma tabela de segurança contendo nm_fabrica,nm_produto incluindo os dados apenas se o número de quantidade de produtos seja maior que 0.
+select nm_fabrica from tb_fabrica A, tb_produto B,tb_produtofabrica C where 
+A.id_fabrica = C.id_fabrica and
+C.cd_produto = B.cd_produto and nu_qtde>nu_qtde_minima; seleciona o nome das fabricas que tem mais que a quantidade minima de produtos.
+select nm_oficina from tb_oficina A, tb_oficinaaluno B, tb_aluno C where
+A.cd_oficina = B.cd_oficina and
+B.cd_aluno = C.cd_aluno and C.nm_aluno ilike '%M%';Listar o nome das oficinas em que os alunos que tenham em seu nome a letra ‘M’ participaram.
+create table tb_curso (cd_curso integer not null, nm_curso varchar(30) not null);
+alter table tb_curso add constraint ak_nm_curso unique (nm_curso); cria uma constraint que não permite que o campo seja null e também que ele se repita.
+select A.nm_curso from tb_curso A, tb_aluno B where A.cd_curso = B.cd_curso
+and A.cd_curso not in(select cd_curso from tb_aluno);Listar os cursos que não tenham alunos matriculados.
+select A.nm_curso from tb_curso A left join tb_aluno B on A.cd_curso = B.cd_curso
+group by A.nm_curso having count(B.cd_aluno)=(select max(contagem) from
+(select count(cd_aluno) as contagem from tb_aluno group by cd_curso) as resultado);Listar o curso que tenha o maior número de alunos.
+select A.nm_curso from tb_curso A, tb_aluno B, tb_oficinaaluno C where
+A.cd_curso = B.cd_curso and
+B.cd_aluno = C.cd_aluno group by A.nm_curso having count(C.cd_aluno)=(select max(contagem)
+from(select count(cd_aluno) as contagem from tb_oficinaaluno group by cd_oficina) as resultado);Listar o curso que possua o aluno que mais participou de oficinas em todos os anos
+
+Anotações:
+Diagrama ER abstração de um sistema que vai ser criado:
+Entidade representa tabelas.
+Atributos são chamados de colunas que podem ser manipuladas pelo SQL.
+Primary Key = identificador de registros únicos, dados que não podem ser repetidos, não pode ser null, apenas uma pk por
+tabela, valores de pk são dificilmente alterados então sempre utilizar dados sólidos para elas que não vão ser alterados
+por exemplo id.
+Foreign Key = referencia outra coluna de outra tabela que é a primary da tabela referenciada.
+Usada para identidicar dados de um item que esteja em outra tabela.
+Primary Foreign Key = PFK são usados para fazer a composição de primary key de outra tabela, por serem primary key e foreign key ao mesmo tempo não ocorre conflito dos dados e podem ser colocadas mais de uma em uma tabela.
+Relações entre tabelas, são representadas por linhas.
+pé de galinha: 
+One-To-One um regitro de uma tabela se relaciona com um regitro de outra tabela, pouco usada por normalmente dados um para um serem colocados em uma mesma tabela.A relação vai ser dependente do tipo de relação que o programador quer fazer, por exemplo é mais lógico passar o ID para uma tabela de PERFIL por que todo perfil precisa ser um usúario mas nem todo usúario precisa ter um perfil. 
+Dois Traços representam que tem a necessidade de haver uma associação por exemplo Uma tabela User e uma tabela Profile ambas ligadas por 2 traços quer dizer que um usúario não existe sem perfil e um perfil não existe sem usuário.
+Um Traços E Uma Bola representam que não tem a necessidade de haver uma associação por exemplo Uma tabela User e uma tabela Profile com a tabela User ligada por 2 Traçoes e a tabela Profile ligada por um Traço e Uma Bola quer dizer que um usúario não precisa ter um perfil porém um perfil não existe sem usuário.
+
+One-To-Many um registro em uma tabela se relaciona com um ou muitos registros em outra tabela, muito usado,a relação vai ser dependente do tipo de relação que o programador quer fazer, por exemplo é mais lógico passar o ID para uma tabela de PERFIL por que todo perfil precisa ser um usúario mas nem todo usúario precisa ter um perfil, lembrando que dado a forma deste relacionamento um único usuário pode ter mais de um perfil, levando em conta também esse tipo de relacionamento na falta do indicativo da "Bola" o usuário é obrigado a ter ao menos um perfil, caso tenha a presença da "Bola" o usuário pode ter nenhum ou vários perfis. 
+sempre levando em conta a integridade dos dados, um usuário caso não tenha a presença da "Bola" não pode não ter um perfil.
+
+Many-To-Many muitos registros de uma tabela estão atrelados a muitos registros de outra tabela, mas isso não pode ser feito diretamente, então precisa de uma Join table uma tabela de junção. Usada por exemplo para da uma permissão pra vários usuários, uma permissão de administrador por exemplo.
+Uma Join Table não precisa necessariamente ser usada apenas para esse fim, podem ser registrado nestsa tabela também informações de quando por exemplo um usuário ganhou a permissão de administrador.
+Os campos de uma Join Table representam as relações entre duas tabelas de diversas formas.
+A relação de muitos para ela é criada a partir de duas relações de um para muitos, podendo assim usar uma pk composta.
+porém um ID não pode ser atribuído um mesmo "Cargo" mais de uma vez, ou seja uma mesma combinação id de usuário e id de cargo não podem ser repetidas, a mesma id pode ser atribuida a mais de um "Cargo" por exemplo.
+
+Tabelas com integridade referencial são tabelas onde os dados armazenados são de maior qualidade, por exemplo com constraints aonde um id não pode ser duplicado ou um dado que não existe não pode ser inserido, os dados em determinadas colunas tem que ser condizentes com o relacionamento entre as tabelas por exemplo não pode ser inserido um estado que não exista no banco.
+Ao no insert into ditar por meio de parenteses a ordem das colunas a ordem de inserção de dados pode ser alterada,EX:
+Create Table tb_x (id_cliente integer not null, nm_cliente varchar(60) not null, cd_estado varchar(2) not null);
+insert into tb_x (nm_cliente, id_cliente, cd_estado) values ("Rafael",'5',"RS");
+
+Para deletar dados de tabelas linkadas por foreign key os dados a serem deletados não podem estar sendo usados de referência por outras tabelas.
+
+Lembrando que não pode ser alterado ou atualizado campos que já contenham dados que conflitem com a nova regra que deseja impor, por exemplo não se pode alterar um campo para Not Null se já existem dados nele.
+
+É interessante que primeiramente sejam criadas as tabelas as quais não tem dependência e logo em seguida as restantes.
+INT números positivos e negativos.
+INT UNSIGNED apenas números positivos.
+Select seleciona determinada coisa.
+* tudo.
+= igual.
+!= diferente.
+> maior que.
+< menor que.
+Create comando usado para criar algo como tabelas.
+VARCHAR() usado para nomes podendo caber quantos caracteres forém colocados dentro do parêntese.
+NOT NULL não nulo ou seja essa coluna obrigatoriamente vai ser preenchida.
+Insert inserir regitros em uma determinada tabela.
+Delete delata dados de determinadas colunas ou tabelas.
+Where é o comando utilizado para colocar determinada condição em um comando. 
+Alter altera determinada tabela como o usuário quiser.
+Like e Ilike que sejam idênticos ou parecidos com ...
+Update permite inserir dados em uma coluna de uma tabela com dados já inseridos.
+Desc decrente.
+Asc ascendente.
+Upper letras maiúsculas.
+Lower letras minúsculas.
+Order By ordene os regitros pelo campo ...
+Check uma constraint que permite colocar uam condição em uma coluna.
+Drop deleta uma estrutura de uma tabela.
+Sum é a soma matemática.
+Avg é a média matemática.
+Max é o maximo matemática.
+Distinct não permite entregar a mesma informação mais de uma vez sem duplicar linhas.
+Between entre numero tal e numero tal.
+Count conta os regitros de uma tabela.
+Rename renomear.
+To para.
+Default caso não seja especificado o que é o campo será preenchido pela coisa que esteja após o default entre ''.
+In IN é usada em SQL para verificar se um valor está presente em um conjunto de valores especificado. Ela é comumente utilizada em conjunto com a cláusula WHERE para filtrar os resultados de uma consulta baseada em múltiplos valores possíveis.
+Not In não pertence,Ela é comumente utilizada em conjunto com a cláusula WHERE para filtrar os resultados de uma consulta baseada em múltiplos valores possíveis.
+Group By agrupa os elementos de uma coluna ou tabela.
+Having filtra os dados por meio de uma condição.
+LEFT JOIN é um tipo de junção que retorna todos os registros da tabela à esquerda da cláusula.
+ON é usada em conjunto com junções para especificar a condição de junção entre as tabelas. Ela especifica as colunas das tabelas que devem ser comparadas para determinar se um par de linhas das tabelas deve ser combinado.
+
+select * from tb_aluno;
+select * from tb_oficina;
+select * from tb_oficinaaluno;
+select * from tb_curso;
+
+--lista de exercicios 2
+
+--exercicio 1
+create table tb_alunoxyz (cd_aluno integer not null,nm_aluno char(60) not null);
+alter table tb_alunoxyz add constraint pk_nm_aluno primary key (nm_aluno);
+
+--exercicio 2
+create table tb_oficinaxyz (cd_obra integer not null, nm_oficina varchar(60) not null);
+
+--exercicio 3
+create table tb_oficinaalunoxyz (cd_oficina integer, cd_aluno integer, nu_ano integer not null check(nu_ano>2017 and nu_ano<2021));
+
+--exercicio 4
+alter table tb_alunoxyz rename to tb_aluno;
+
+--exercicio 5
+alter table tb_oficinaxyz rename to tb_oficina;
+
+--exercicio 6
+alter table tb_oficinaalunoxyz rename to tb_oficinaaluno;
+
+--exercicio 7
+alter table tb_oficina add column nu_ano integer not null check(nu_ano>2017 and nu_ano<2021);
+alter table tb_oficina drop column nu_ano;
+alter table tb_oficina add column nu_ano integer not null check(nu_ano>2015 and nu_ano<2021);
+
+--exercicio 8
+alter table tb_oficinaaluno drop column nu_ano;
+
+--exercicio 9
+alter table tb_aluno drop constraint pk_nm_aluno;
+
+--exercicio 10
+alter table tb_aluno add constraint pk_cd_aluno primary key (cd_aluno);
+
+--exercicio 11
+alter table tb_oficina rename column cd_obra to cd_oficina;
+
+--exercicio 12
+alter table tb_oficina add constraint pk_cd_oficina primary key (cd_oficina);
+
+--exercicio 13
+alter table Tb_oficinaaluno add constraint pk_oficinaaluno primary key (cd_oficina, cd_aluno);
+
+--exercicio 14
+alter table tb_oficinaaluno add constraint fk_cd_oficina foreign key (cd_oficina) references tb_oficina;
+
+--exercicio 15
+alter table tb_oficinaaluno alter column cd_aluno set not null;
+alter table tb_oficinaaluno alter column cd_oficina set not null;
+
+--exercicio 16
+alter table tb_oficinaaluno add constraint fk_cd_aluno foreign key (cd_aluno) references tb_aluno;
+
+--exercicio 17
+alter table tb_aluno alter column nm_aluno type varchar(60);
+
+--exercicio 18
+
+alter table tb_aluno add column fl_sexo char(1) not null default 'M' check (fl_sexo in('M','F'));
+
+--exercicio 19
+insert into tb_aluno values ('1','MARINA');
+insert into tb_aluno values ('2','PEDRO');
+insert into tb_aluno values ('3','LUIS');
+insert into tb_aluno values ('4','FERNANDO');
+insert into tb_aluno values ('5','Carla');
+insert into tb_aluno values ('6','maria');
+
+--exercicio 20
+insert into tb_oficina values ('33','Robotica','2018');
+insert into tb_oficina values ('44','Banco de dados','2018');
+insert into tb_oficina values ('55','Teatro','2016');
+insert into tb_oficina values ('66','Musica','2017');
+insert into tb_oficina values ('77','Direito','2018');
+
+--exercicio 21
+update tb_aluno set nm_aluno = upper(nm_aluno);
+
+--exercicio 22
+update tb_oficina set nm_oficina = upper(nm_oficina);
+
+--exercicio 23
+update tb_oficina set nu_ano = 2017 where nu_ano = 2016;
+
+--exercicio 24
+insert into tb_oficinaaluno values ('33','1');
+insert into tb_oficinaaluno values ('44','2');
+insert into tb_oficinaaluno values ('33','3');
+insert into tb_oficinaaluno values ('44','5');
+insert into tb_oficinaaluno values ('66','6');
+insert into tb_oficinaaluno values ('33','2');
+insert into tb_oficinaaluno values ('44','1');
+
+--exercicio 25 
+select A.nm_aluno,A.cd_aluno,B.nm_oficina,B.nu_ano from tb_aluno A,tb_oficina B,tb_oficinaaluno C where  
+A.cd_aluno = C.cd_aluno and
+C.cd_oficina = B.cd_oficina order by nm_aluno, nu_ano desc, nm_oficina;
+
+--exercicio 26
+select A.nu_ano as resultado from tb_oficina A,tb_oficinaaluno B where A.cd_oficina = B.cd_oficina
+group by A.nu_ano having count(*) = 
+(select min(contagem) from(select count(*) as contagem from tb_oficinaaluno group by cd_aluno) as resultado); 
+
+--exercicio 27
+select A.nm_oficina as resultado from tb_oficina A, tb_oficinaaluno B where A.cd_oficina = B.cd_oficina
+group by A.nm_oficina having count(*) = (select max(contagem) from(select count(*) as contagem
+from tb_oficinaaluno B, tb_oficina A where B.cd_oficina = A.cd_oficina and A.nu_ano = 2018
+group by B.cd_oficina)as resposta);
+
+--exercicio 28 
+select A.nu_ano as Ano,A.nm_oficina as Nome from tb_oficina A left join tb_oficinaaluno B on A.cd_oficina = B.cd_oficina
+group by A.nm_oficina, A.nu_ano having count (B.cd_oficina) = 0 order by A.nu_ano asc, A.nm_oficina;
+
+--exercicio 29
+select nm_aluno from tb_aluno where cd_aluno not in (select cd_aluno from tb_oficinaaluno);
+
+--exercio 30
+select nm_aluno from tb_aluno where cd_aluno in (select cd_aluno from (select cd_aluno,
+count(*) as r from tb_oficinaaluno group by cd_aluno) as sub where r =
+(select max (r) from (select count(*) as r from tb_oficinaaluno
+group by cd_aluno) as maximo));
+
+--exercicio 31
+delete from tb_aluno  where cd_aluno not in (select cd_aluno from tb_oficinaaluno);
+
+--exercicio 32
+select nm_aluno from tb_aluno where nm_aluno ilike '%M%';
+
+--exercicio 33
+select nm_oficina from tb_oficina A, tb_oficinaaluno B, tb_aluno C where
+A.cd_oficina = B.cd_oficina and
+B.cd_aluno = C.cd_aluno and C.nm_aluno ilike '%M%';
+
+--exercicio 34 
+create table tb_curso (cd_curso integer not null, nm_curso varchar(30) not null);
+alter table tb_curso add constraint ak_nm_curso unique (nm_curso);
+
+--exercicio 35
+alter table tb_curso add constraint pk_cd_curso primary key (cd_curso);
+alter table tb_curso drop constraint pk_cd_curso;
+
+--exercicio 36
+alter table tb_aluno add column cd_curso integer;
+
+--exercicio 37
+alter table tb_aluno add constraint fk_cd_curso foreign key (cd_curso) references tb_curso;
+
+--exercicio 38
+insert into tb_curso values ('21','INFORMATICA');
+insert into tb_curso values ('31','MECANICA');
+insert into tb_curso values ('41','LETRAS');
+insert into tb_curso values ('51','Economia');
+
+--exercicio 39
+update tb_aluno set cd_curso = 21 where cd_aluno = 1;
+update tb_aluno set cd_curso = 31 where cd_aluno = 2;
+update tb_aluno set cd_curso = 41 where cd_aluno = 3;
+update tb_aluno set cd_curso = 21 where cd_aluno = 4;
+update tb_aluno set cd_curso = 31 where cd_aluno = 5;
+update tb_aluno set cd_curso = 21 where cd_aluno = 6;
+
+--exercicio 40
+alter table tb_aluno alter column cd_curso set not null;
+
+--exercicio 41
+select A.nm_curso from tb_curso A left join tb_aluno B on 
+A.cd_curso = B.cd_curso 
+group by A.nm_curso having count(B.cd_curso) =0;
+
+--exercicio 42
+select A.nm_curso from tb_curso A left join tb_aluno B on A.cd_curso = B.cd_curso
+group by A.nm_curso having count(B.cd_aluno)=(select max(contagem) from
+(select count(cd_aluno) as contagem from tb_aluno group by cd_curso) as resultado);
+
+--exercicio 43
+select A.nm_curso from tb_curso A, tb_aluno B, tb_oficinaaluno C where
+A.cd_curso = B.cd_curso and
+B.cd_aluno = C.cd_aluno group by A.nm_curso having count(C.cd_aluno)=(select max(contagem)
+from(select count(cd_aluno) as contagem from tb_oficinaaluno group by cd_oficina) as resultado);

@@ -1,0 +1,400 @@
+Create Table Tb_Cliente (Id_Cliente Integer, Nm_Cliente Varchar(60) Not Null, Cd_Estado char(2) Not Null);
+
+Insert Into Tb_Cliente Values('1','Jaluza','RS');
+Insert Into Tb_Cliente Values('2','Geovana','RS');
+Insert Into Tb_Cliente Values('3','Rafael','SP');
+Insert Into Tb_Cliente Values('4','João','SC');
+Insert Into Tb_Cliente Values('5','Pedro','SC');
+Insert into Tb_Cliente Values('6','Miguel','SP');
+Insert Into Tb_Cliente Values('7','José','SC');
+Insert Into Tb_Cliente Values('8','Carlos','SP');
+Insert Into Tb_Cliente Values('9','Ricardo','RJ','2000');
+
+
+Create Table Tb_Estado (Id_Estado integer,Nm_Estado varchar(30) Not Null, Cd_Estado char(2) Not Null);
+Insert Into Tb_Estado Values ('1','Rio Grande Do Sul','RS');
+Insert Into Tb_Estado Values ('2','Santa Catarina','SC');
+Insert Into Tb_Estado Values ('3','São Paulo','SP');
+Insert into Tb_Estado Values ('4','Rio De Janeiro','RJ');
+
+ALter Table Tb_Cliente ADD Constraint Pk_Id_Cliente Primary Key (Id_Cliente);
+Alter Table Tb_Estado Add Constraint Pk_Cd_Estado Primary Key (Cd_Estado);
+
+Alter Table Tb_Cliente Add Constraint FK_Cd_Estado Foreign Key (Cd_Estado) references Tb_Estado;
+
+Alter Table Tb_Cliente ADD COLUMN Vl_Salario Numeric;
+Update Tb_Cliente Set Vl_Salario = 500 Where Vl_Salario Is Null; 
+Update Tb_Cliente Set Vl_Salario = 1500 Where Vl_Salario <1000;
+Update Tb_Cliente Set Vl_Salario = 3000 Where Id_Cliente = 3;
+Alter Table Tb_Cliente Add Constraint Ck_Vl_Salario Check (Vl_salario >=1.000);
+
+Select * From Tb_Cliente Order By Vl_Salario desc;
+Select * From Tb_Estado;
+
+Alter Table Tb_cliente alter column vl_salario type integer;
+Alter Table Tb_Cliente alter column vl_salario type numeric;
+
+Select * From Tb_Cliente;
+
+select nm_cliente,nm_estado from tb_cliente A, Tb_estado B where A.cd_estado = B.cd_estado;
+select sum(vl_salario) from tb_cliente;
+select To_char(avg(vl_salario),'99999.99')as resultado from tb_cliente;
+select nm_estado as Estado, count (*) as Quantidade from tb_cliente A, tb_estado B where A.cd_estado = B.cd_estado group by nm_estado;
+select nm_cliente, vl_salario from tb_cliente where vl_salario >(select avg(vl_salario) from tb_cliente);
+select nm_estado as Estado, AVG (Vl_Salario) as Media from tb_cliente A, tb_estado B where A.cd_estado = B.cd_estado group by nm_estado;
+select nm_cliente as nome, vl_salario as salario from tb_cliente where vl_salario = (select max(Vl_salario) from tb_cliente);
+select distinct cd_estado from tb_estado;
+Delete from tb_estado A where 0 = (select count (*) from tb_cliente B where B.cd_estado = A.cd_estado);
+select nm_estado as Estado, count (*) as Quantidade from tb_cliente A, tb_estado B where A.cd_estado = B.cd_estado
+group by nm_estado having count(*) =3;
+
+insert into tb_estado values ('5','Bahia','BH');
+
+Select * From tb_estado;
+Select * From tb_cliente,tb_estado;
+
+Alter Table Tb_cliente alter column vl_salario type integer;
+Alter Table Tb_Cliente alter column vl_salario type numeric;
+
+Select * From Tb_Cliente;
+
+select nm_cliente as nome, vl_salario as salario from tb_cliente where vl_salario = (select max(Vl_salario) from tb_cliente);
+select distinct cd_estado from tb_estado;
+Delete from tb_estado A where 0 = (select count (*) from tb_cliente B where B.cd_estado = A.cd_estado);
+select nm_estado as Estado, count (*) as Quantidade from tb_cliente A, tb_estado B where A.cd_estado = B.cd_estado
+group by nm_estado having count(*) >1;
+
+insert into tb_cliente values ('11','José','RJ','1800');
+
+update tb_cliente set vl_salario = 5000 where id_cliente =1;
+
+insert into tb_estado values ('5','Bahia','BH');
+
+Alter Table Tb_Cliente Alter Column Vl_Salario set not null;
+
+Alter Table Tb_Cliente drop Constraint Ck_Vl_Salario;
+
+Alter Table Tb_Cliente Add Constraint Ck_Vl_Salario Check (Vl_salario >=1000);
+
+delete from tb_cliente where id_cliente = 11;
+
+select nm_cliente from tb_cliente where nm_cliente ilike '%';
+
+Select * From tb_estado;
+Select * From tb_cliente,tb_estado;
+
+select nm_cliente, vl_salario, id_cliente from tb_cliente where
+id_cliente <=5 order by vl_salario desc;
+
+update tb_cliente set vl_salario = 20000 where nm_cliente ilike 'raf%';
+
+insert into tb_cliente values ('12','Ruby Aurea','RO','1400');
+							  
+select * from tb_estado;
+select * from tb_cliente;
+							   
+insert into tb_estado values ('6','Roraima','RO');
+
+select nm_cliente, vl_salario from tb_cliente where vl_salario >= 5000;
+select nm_cliente, id_cliente from tb_clienteselect nm_cliente, id_cliente from tb_cliente where id_cliente between 7 and 10;
+
+
+ where id_cliente != 8 order by id_cliente;
+
+
+select nm_cliente, vl_salario from tb_cliente where vl_salario >(
+	
+create view vw_avg_salario as select avg(vl_salario) from tb_cliente;
+drop view vw_avg_salario;
+select nm_cliente, vl_salario from tb_cliente where vl_salario = (vw_avg_salario);
+
+alter table rafa.tb_pessoa add constraint ck_nu_cpf check (LENGTH(nu_cpf) = 11);
+
+
+create table rafa.tb_pessoa (cd_pessoa integer not null, nm_pessoa varchar(60) not null,
+fl_sexo boolean not null default false, fl_ativo boolean, nu_cpf varchar(11),
+nu_idade integer not null check(nu_idade between 1 and 99));
+
+select * from rafa.tb_pessoa;
+
+insert into rafa.tb_pessoa values ('1','Rafael Hwas',true,true,'05273733030','21');
+insert into rafa.tb_pessoa values ('2','Geovana Hwas',false,true,'05273733032','19');
+insert into rafa.tb_pessoa values ('3','Jaluza Hwas',false,true,'37801148099','61');
+insert into rafa.tb_pessoa values ('4','Percy Hwas',true,false,null,'11');
+insert into rafa.tb_pessoa values ('5','Omar Hwas',true,true,'05273733031','36');
+insert into rafa.tb_pessoa values ('6','Ali Hwas',true,true,null,'36');
+insert into rafa.tb_pessoa values ('7','Rissem Hwas',false,true,null,'64');
+insert into rafa.tb_pessoa values ('8','Allan Hwas',true,true,'05273733033','14');
+insert into rafa.tb_pessoa values ('9','Henry Hwas',true,true,'05273733034','9');
+insert into rafa.tb_pessoa values ('10','Otavio Hwas',true,true,'05273733035','4');
+insert into rafa.tb_pessoa values ('11','Jose Silva',true,false,null,'98');
+insert into rafa.tb_pessoa values ('12','Paulo Silva',true,true,null,'62');
+insert into rafa.tb_pessoa values ('13','Matheus Silva',true,false,null,'45');
+insert into rafa.tb_pessoa values ('14','Carlos Silva',true,true,'05273733036','72');
+insert into rafa.tb_pessoa values ('15','Maria Silva',false,false,null,'89');
+select * from rafa.tb_pessoa order by cd_pessoa;
+select * from rafa.tb_seguranca order by cd_pessoa;
+
+insert into rafa.tb_pessoa values ('16','Jorge Costa',true,true,'05273733037','48');
+insert into rafa.tb_pessoa values ('17','Marilene Gruber',false,true,null,'75');
+insert into rafa.tb_pessoa values ('18','Jorge Costa',true,false,null,'27');
+insert into rafa.tb_pessoa values ('19','Eunice Oliveira',false,true,'05273733038','25');
+insert into rafa.tb_pessoa values ('20','Aline Gruber',false,false,'05273733039','47');
+insert into rafa.tb_pessoa values ('21','Leticia Krug',false,true,'05273733040','36');
+insert into rafa.tb_pessoa values ('22','Leonardo Krug',true,true,'05273733041','38');
+
+
+
+--lista de exercicios 1--
+--exercicio 1--
+--crie as tabelas--
+
+--exercicio 2--
+--popule as tabelas com dados--
+
+--exercicio 3--
+Create Table rafa.tb_Seguranca as Select * from rafa.tb_Pessoa;
+
+--exercicio 4--
+select * from rafa.tb_pessoa;
+
+--exercicio 5--
+select count(*) from rafa.tb_pessoa;
+
+--exercicio 6
+select count(*) from rafa.tb_pessoa where nu_cpf is null;
+
+--exercicio 7
+select * from rafa.tb_pessoa order by nm_pessoa;
+
+--exercicio 8
+select nm_pessoa from rafa.tb_pessoa where fl_sexo is false;
+
+--exercicio 9
+select count(*) from rafa.tb_pessoa where fl_ativo is true;
+
+--exercicio 10
+select count(*) from rafa.tb_pessoa where fl_ativo is true and nu_cpf is null;
+
+--exercicio 11
+delete from rafa.tb_pessoa where fl_ativo is false;
+
+--exercicio 12
+drop table rafa.tb_pessoa;
+
+--exercicio 13
+create table rafa.tb_pessoa as select * from rafa.tb_seguranca;
+
+--exercicio 14
+select count(*) from rafa.tb_pessoa where nm_pessoa != upper(nm_pessoa);
+
+
+--exercicio 15
+select nm_pessoa, nu_idade from rafa.tb_pessoa where nu_idade between 18 and 25;
+
+--exercicio 16
+select nm_pessoa, nu_idade from rafa.tb_pessoa where nu_idade >=18 and nu_idade <=25;
+
+--exercicio 17
+select nm_pessoa from rafa.tb_pessoa where nm_pessoa ilike '%Silva';
+
+--exercicio 18
+select nm_pessoa from rafa.tb_pessoa where nm_pessoa ilike '%Andrade%';
+
+--exercicio 19
+select nm_pessoa from rafa.tb_pessoa where nm_pessoa ilike 'L%Krug';
+
+--Exercicio 20
+update rafa.tb_pessoa set nm_pessoa = upper(nm_pessoa);
+
+
+
+alter table rafa.tb_pessoa add constraint ck_nu_cpf check (LENGTH(nu_cpf) = 11);
+
+delete from rafa.tb_pessoa where cd_pessoa = 2;
+
+select * from tb_aluno;
+select * from tb_oficina;
+select * from tb_oficinaaluno;
+select * from tb_curso;
+
+--lista de exercicios 2
+
+--exercicio 1
+create table tb_alunoxyz (cd_aluno integer not null,nm_aluno char(60) not null);
+alter table tb_alunoxyz add constraint pk_nm_aluno primary key (nm_aluno);
+
+--exercicio 2
+create table tb_oficinaxyz (cd_obra integer not null, nm_oficina varchar(60) not null);
+
+--exercicio 3
+create table tb_oficinaalunoxyz (cd_oficina integer, cd_aluno integer, nu_ano integer not null check(nu_ano>2017 and nu_ano<2021));
+
+--exercicio 4
+alter table tb_alunoxyz rename to tb_aluno;
+
+--exercicio 5
+alter table tb_oficinaxyz rename to tb_oficina;
+
+--exercicio 6
+alter table tb_oficinaalunoxyz rename to tb_oficinaaluno;
+
+--exercicio 7
+alter table tb_oficina add column nu_ano integer not null check(nu_ano>2017 and nu_ano<2021);
+alter table tb_oficina drop column nu_ano;
+alter table tb_oficina add column nu_ano integer not null check(nu_ano>2015 and nu_ano<2021);
+
+--exercicio 8
+alter table tb_oficinaaluno drop column nu_ano;
+
+--exercicio 9
+alter table tb_aluno drop constraint pk_nm_aluno;
+
+--exercicio 10
+alter table tb_aluno add constraint pk_cd_aluno primary key (cd_aluno);
+
+--exercicio 11
+alter table tb_oficina rename column cd_obra to cd_oficina;
+
+--exercicio 12
+alter table tb_oficina add constraint pk_cd_oficina primary key (cd_oficina);
+
+--exercicio 13
+alter table Tb_oficinaaluno add constraint pk_oficinaaluno primary key (cd_oficina, cd_aluno);
+
+--exercicio 14
+alter table tb_oficinaaluno add constraint fk_cd_oficina foreign key (cd_oficina) references tb_oficina;
+
+--exercicio 15
+alter table tb_oficinaaluno alter column cd_aluno set not null;
+alter table tb_oficinaaluno alter column cd_oficina set not null;
+
+--exercicio 16
+alter table tb_oficinaaluno add constraint fk_cd_aluno foreign key (cd_aluno) references tb_aluno;
+
+--exercicio 17
+alter table tb_aluno alter column nm_aluno type varchar(60);
+
+--exercicio 18
+
+alter table tb_aluno add column fl_sexo char(1) not null default 'M' check (fl_sexo in('M','F'));
+
+--exercicio 19
+insert into tb_aluno values ('1','MARINA');
+insert into tb_aluno values ('2','PEDRO');
+insert into tb_aluno values ('3','LUIS');
+insert into tb_aluno values ('4','FERNANDO');
+insert into tb_aluno values ('5','Carla');
+insert into tb_aluno values ('6','maria');
+
+--exercicio 20
+insert into tb_oficina values ('33','Robotica','2018');
+insert into tb_oficina values ('44','Banco de dados','2018');
+insert into tb_oficina values ('55','Teatro','2016');
+insert into tb_oficina values ('66','Musica','2017');
+insert into tb_oficina values ('77','Direito','2018');
+
+--exercicio 21
+update tb_aluno set nm_aluno = upper(nm_aluno);
+
+--exercicio 22
+update tb_oficina set nm_oficina = upper(nm_oficina);
+
+--exercicio 23
+update tb_oficina set nu_ano = 2017 where nu_ano = 2016;
+
+--exercicio 24
+insert into tb_oficinaaluno values ('33','1');
+insert into tb_oficinaaluno values ('44','2');
+insert into tb_oficinaaluno values ('33','3');
+insert into tb_oficinaaluno values ('44','5');
+insert into tb_oficinaaluno values ('66','6');
+insert into tb_oficinaaluno values ('33','2');
+insert into tb_oficinaaluno values ('44','1');
+
+--exercicio 25 
+select A.nm_aluno,A.cd_aluno,B.nm_oficina,B.nu_ano from tb_aluno A,tb_oficina B,tb_oficinaaluno C where  
+A.cd_aluno = C.cd_aluno and
+C.cd_oficina = B.cd_oficina order by nm_aluno, nu_ano desc, nm_oficina;
+
+--exercicio 26
+select A.nu_ano as resultado from tb_oficina A,tb_oficinaaluno B where A.cd_oficina = B.cd_oficina
+group by A.nu_ano having count(*) = 
+(select min(contagem) from(select count(*) as contagem from tb_oficinaaluno group by cd_aluno) as resultado); 
+
+--exercicio 27
+select A.nm_oficina as resultado from tb_oficina A, tb_oficinaaluno B where A.cd_oficina = B.cd_oficina
+group by A.nm_oficina having count(*) = (select max(contagem) from(select count(*) as contagem
+from tb_oficinaaluno B, tb_oficina A where B.cd_oficina = A.cd_oficina and A.nu_ano = 2018
+group by B.cd_oficina)as resposta);
+
+--exercicio 28 
+select A.nu_ano as Ano,A.nm_oficina as Nome from tb_oficina A left join tb_oficinaaluno B on A.cd_oficina = B.cd_oficina
+group by A.nm_oficina, A.nu_ano having count (B.cd_oficina) = 0 order by A.nu_ano asc, A.nm_oficina;
+
+--exercicio 29
+select nm_aluno from tb_aluno where cd_aluno not in (select cd_aluno from tb_oficinaaluno);
+
+--exercio 30
+select nm_aluno from tb_aluno where cd_aluno in (select cd_aluno from (select cd_aluno,
+count(*) as r from tb_oficinaaluno group by cd_aluno) as sub where r =
+(select max (r) from (select count(*) as r from tb_oficinaaluno
+group by cd_aluno) as maximo));
+
+--exercicio 31
+delete from tb_aluno  where cd_aluno not in (select cd_aluno from tb_oficinaaluno);
+
+--exercicio 32
+select nm_aluno from tb_aluno where nm_aluno ilike '%M%';
+
+--exercicio 33
+select nm_oficina from tb_oficina A, tb_oficinaaluno B, tb_aluno C where
+A.cd_oficina = B.cd_oficina and
+B.cd_aluno = C.cd_aluno and C.nm_aluno ilike '%M%';
+
+--exercicio 34 
+create table tb_curso (cd_curso integer not null, nm_curso varchar(30) not null);
+alter table tb_curso add constraint ak_nm_curso unique (nm_curso);
+
+--exercicio 35
+alter table tb_curso add constraint pk_cd_curso primary key (cd_curso);
+alter table tb_curso drop constraint pk_cd_curso;
+
+--exercicio 36
+alter table tb_aluno add column cd_curso integer;
+
+--exercicio 37
+alter table tb_aluno add constraint fk_cd_curso foreign key (cd_curso) references tb_curso;
+
+--exercicio 38
+insert into tb_curso values ('21','INFORMATICA');
+insert into tb_curso values ('31','MECANICA');
+insert into tb_curso values ('41','LETRAS');
+insert into tb_curso values ('51','Economia');
+
+--exercicio 39
+update tb_aluno set cd_curso = 21 where cd_aluno = 1;
+update tb_aluno set cd_curso = 31 where cd_aluno = 2;
+update tb_aluno set cd_curso = 41 where cd_aluno = 3;
+update tb_aluno set cd_curso = 21 where cd_aluno = 4;
+update tb_aluno set cd_curso = 31 where cd_aluno = 5;
+update tb_aluno set cd_curso = 21 where cd_aluno = 6;
+
+--exercicio 40
+alter table tb_aluno alter column cd_curso set not null;
+
+--exercicio 41
+select A.nm_curso from tb_curso A left join tb_aluno B on 
+A.cd_curso = B.cd_curso 
+group by A.nm_curso having count(B.cd_curso) =0;
+
+--exercicio 42
+select A.nm_curso from tb_curso A left join tb_aluno B on A.cd_curso = B.cd_curso
+group by A.nm_curso having count(B.cd_aluno)=(select max(contagem) from
+(select count(cd_aluno) as contagem from tb_aluno group by cd_curso) as resultado);
+
+--exercicio 43
+select A.nm_curso from tb_curso A, tb_aluno B, tb_oficinaaluno C where
+A.cd_curso = B.cd_curso and
+B.cd_aluno = C.cd_aluno group by A.nm_curso having count(C.cd_aluno)=(select max(contagem)
+from(select count(cd_aluno) as contagem from tb_oficinaaluno group by cd_oficina) as resultado);
